@@ -1,17 +1,55 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+     <div class="task-container">
+       <h2> My Tasker</h2><br /><br>
+       <div class="">
+        <form method="POST" action="submit">
+          <input type="text" name="task">
+          <input type="submit" value="Add"/>
+        </form>
+        </div>
+        <ul>
+<br>
+
+
+
+          <% taskscollection.forEach(details=> { %>
    
-    <div class="comics">
-      <a href="/comic1" class="bookmarks">SUPERMAN VS. SHAZAM</a>
-      <a href="/comic2" class="bookmarks">THE JOKER</a>
-      <a href="/comic3" class="bookmarks">WONDER WOMAN</a>
-      <a href="/comic4" class="bookmarks">FALLEN ANGEL</a>
-      <a href="/comic5" class="bookmarks">RED HOOD: OUTLAW</a>
-    </div>
-  </body>
+   
+            <li>
+   
+   
+              <div>
+   
+   
+                <%=  details.content %>
+   
+   
+                  <a href="/remove/<%= details._id %>" class="remove"><span class="fas fa-trash"></span></a>
+   
+   
+                  <a href="/edit/<%=details._id %>" class="edit"><span class="fas fa-pen"></span></a>
+   
+   
+              </div>
+   
+   
+            </li>
+   
+   
+            <% }) %>
+   
+   
+        </ul>
+   
+   
+   
+     </div>
+     <script src="https://kit.fontawesome.com/d22418c97d.js" crossorigin="anonymous"></script>
+  </body> 
 </html>

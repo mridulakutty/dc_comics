@@ -1,30 +1,50 @@
-
 var express = require('express');
 var router = express.Router();
+var taskscollection=require('./users');
+const app=express();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'DC Comics' });
+  taskscollection.find({},(err,docs)=>{
+    res.render('index',{taskscollection:docs});
+  })
 });
-/* GET comics1 page*/
-router.get('/comic1', function(req, res, next) {
-  res.render('comic1');
-});
-/* GET comics2 page*/
-router.get('/comic2', function(req, res, next) {
-  res.render('comic2');
-});
-/* GET comics3 page*/
-router.get('/comic3', function(req, res, next) {
-  res.render('comic3');
-});
-/* GET comics4 page*/
-router.get('/comic4', function(req, res, next) {
-  res.render('comic4');
-});
-/* GET comics5 page*/
-router.get('/comic5', function(req, res, next) {
-  res.render('comic5');
+router.post('/submit',(req,res)=>{
+  taskscollection.create({
+    content:req.body.task
+  })
+  .then(()=>{
+    res.redirect("/")
+  })
 });
 
+router.get('/edit/:id',(req,res)=>{
+  const id=req.params.id;
+  taskscollection.find({},(err,docs)=>{
+    res.render('update',{taskscollection:docs,idupdate:id});
+  });
+})
+router.post('/edit/:id',(req, res) => {
+  const id = req.params.id;
+  taskscollection.findByIdAndUpdate(id, {
+  content: req.body.task
+  }, err => {
+  if(err) {
+  res.send(err);
+  }else {
+  res.redirect("/");
+  }
+  });
+  });
+router.get('/remove/:id',(req,res)=>{
+  const id=req.params.id;
+  taskscollection.findByIdAndRemove(id,err =>{
+    if(err){
+      res.send('ERROR OCCURED');
+    }
+    else {
+      res.redirect("/")
+    }
+  })
+})
 module.exports = router;

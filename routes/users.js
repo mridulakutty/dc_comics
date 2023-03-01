@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+let mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
+
+mongoose.connect('mongodb://0.0.0.0:27017/task',(err,res)=>{
+  if(err){
+    console.log(err);
+  }
 });
 
-module.exports = router;
+let schema = mongoose.Schema(
+    {
+        content: {
+            type: String,
+            required: true
+        }
+    }
+)
+module.exports=mongoose.model('tasks',schema);
